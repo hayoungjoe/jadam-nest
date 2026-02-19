@@ -1,0 +1,463 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_alarm000 {
+  id         Int       @id @default(autoincrement())
+  plc_addr   String?   @db.VarChar(50)
+  active_yn  String?   @db.VarChar(1)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_brix000 {
+  brix_log_id     Int       @default(autoincrement())
+  plc_addr_grp_cd String?   @db.VarChar(50)
+  value           Decimal?  @db.Decimal(4, 1)
+  del_yn          String    @default("N") @db.VarChar(1)
+  work_at         DateTime  @default(now()) @db.Timestamptz(6)
+  created_at      DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@id([brix_log_id, work_at])
+  @@index([work_at(sort: Desc)])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_brix100 {
+  id          Int       @id @default(autoincrement())
+  brix_log_id Int
+  value       Decimal?  @db.Decimal(4, 1)
+  del_yn      String    @default("N") @db.VarChar(1)
+  work_at     DateTime? @default(now()) @db.Timestamptz(6)
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_cd000 {
+  main_cd      String    @id @db.VarChar(50)
+  main_nm      String?   @db.VarChar(50)
+  main_cd_rmrk String?   @db.VarChar(2000)
+  use_yn       String?   @default("Y") @db.VarChar(1)
+  del_yn       String?   @default("N") @db.VarChar(1)
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_cd100 {
+  sub_cd      String    @id @db.VarChar(50)
+  main_cd     String?   @db.VarChar(50)
+  sub_cd_nm   String?   @db.VarChar(100)
+  sub_cd_rmrk String?   @db.VarChar(2000)
+  use_yn      String?   @default("Y") @db.VarChar(1)
+  del_yn      String?   @default("N") @db.VarChar(1)
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_cip000 {
+  cip_log_id Int       @id @default(autoincrement())
+  start_at   DateTime? @default(now()) @db.Timestamptz(6)
+  end_at     DateTime? @db.Timestamptz(6)
+  del_yn     String    @default("N") @db.VarChar(1)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  water_qty  Int?      @default(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_cip100 {
+  id         Int       @id @default(autoincrement())
+  cip_log_id Int       @default(autoincrement())
+  start_at   DateTime? @db.Timestamptz(6)
+  end_at     DateTime? @db.Timestamptz(6)
+  del_yn     String?   @db.VarChar(1)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  water_qty  Int?      @default(0)
+}
+
+model tb_connect000 {
+  id         Int       @id @default(autoincrement())
+  plc_addr   String?   @db.VarChar(50)
+  active_yn  String?   @db.VarChar(1)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_elec000 {
+  id         Int      @default(autoincrement())
+  value      Int?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([id, created_at])
+  @@index([created_at(sort: Desc)])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_elec100 {
+  value      Int?
+  created_at DateTime @id @default(now()) @db.Timestamptz(6)
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_elec200 {
+  value      Int?
+  created_at DateTime @id @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at(sort: Desc)])
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_hum000 {
+  id              Int      @default(autoincrement())
+  plc_addr_grp_cd String?  @db.VarChar(50)
+  value           Decimal? @db.Decimal(4, 1)
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([id, created_at])
+  @@index([created_at(sort: Desc)])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_input000 {
+  input_log_id Int       @id @default(autoincrement())
+  raw_mt_tp_cd String?   @db.VarChar(50)
+  raw_mt_qty   Int?
+  work_at      DateTime? @default(now()) @db.Timestamptz(6)
+  del_yn       String    @default("N") @db.VarChar(1)
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_input100 {
+  id           Int       @id @default(autoincrement())
+  input_log_id Int
+  raw_mt_tp_cd String?   @db.VarChar(50)
+  raw_mt_qty   Int?
+  work_at      DateTime? @default(now()) @db.Timestamptz(6)
+  del_yn       String    @default("N") @db.VarChar(1)
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_item000 {
+  item_cd             String    @id @db.VarChar(50)
+  item_nm             String?   @db.VarChar(50)
+  raw_mt_tp_cd        String?   @db.VarChar(50)
+  raw_mt_origin_tp_cd String?   @db.VarChar(50)
+  item_tp_cd          String?   @db.VarChar(50)
+  item_pkg_cd         String?   @db.VarChar(50)
+  item_pkg_qty        Int?
+  identification_cd   String?   @db.VarChar(50)
+  item_brix           Decimal?  @db.Decimal(4, 1)
+  del_yn              String?   @default("N") @db.VarChar(1)
+  created_at          DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_item010 {
+  id                  Int       @id @default(autoincrement())
+  item_cd             String    @db.VarChar(50)
+  item_nm             String?   @db.VarChar(50)
+  raw_mt_tp_cd        String?   @db.VarChar(50)
+  raw_mt_origin_tp_cd String?   @db.VarChar(50)
+  item_tp_cd          String?   @db.VarChar(50)
+  item_pkg_cd         String?   @db.VarChar(50)
+  item_pkg_qty        Int?
+  identification_cd   String?   @db.VarChar(50)
+  item_brix           Decimal?  @db.Decimal(4, 1)
+  del_yn              String?   @db.VarChar(1)
+  created_at          DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_key000 {
+  cd_prefix   String    @id @db.VarChar(50)
+  cd_nm       String?   @db.VarChar(50)
+  last_seq_no Int?
+  main_cd     String?   @unique(map: "tb_key000_unique") @db.VarChar(50)
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_key100 {
+  cd_prefix    String    @id @db.VarChar(50)
+  cd_nm        String?   @db.VarChar(50)
+  last_seq_no  Int?
+  last_reg_ymd String?   @db.VarChar(6)
+  main_cd      String?   @db.VarChar(50)
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_lot000 {
+  lot_no              String    @id @db.VarChar(50)
+  item_cd             String?   @db.VarChar(50)
+  item_nm             String?   @db.VarChar(50)
+  raw_mt_tp_nm        String?   @db.VarChar(50)
+  raw_mt_origin_tp_nm String?   @db.VarChar(50)
+  item_tp_nm          String?   @db.VarChar(50)
+  item_pkg_nm         String?   @db.VarChar(50)
+  item_pkg_qty        Int?
+  identification_cd   String?   @db.VarChar(50)
+  item_brix           Decimal?  @db.Decimal(4, 1)
+  del_yn              String?   @default("N") @db.VarChar(1)
+  created_at          DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_lot100 {
+  lot_serial_no String    @id @db.VarChar(50)
+  lot_no        String    @db.VarChar(50)
+  scan_at       DateTime? @db.Timestamptz(6)
+  work_at       DateTime? @default(now()) @db.Timestamptz(6)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_lot110 {
+  id            Int       @id @default(autoincrement())
+  lot_serial_no String    @db.VarChar(50)
+  scan_at       DateTime? @db.Timestamptz(6)
+  work_at       DateTime? @default(now()) @db.Timestamptz(6)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_lot200 {
+  item_cd       String    @id @db.VarChar(50)
+  last_reg_ymd  String    @db.VarChar(6)
+  last_work_cnt Int
+  last_seq_no   Int
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_opr000 {
+  opr_cd     String    @id @db.VarChar(50)
+  raw_mt_cd  String?   @db.VarChar(50)
+  raw_mt_qty Int?
+  start_at   DateTime? @default(now()) @db.Timestamptz(6)
+  end_at     DateTime? @db.Timestamptz(6)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ph000 {
+  ph_log_id    Int       @default(autoincrement())
+  raw_mt_tp_cd String?   @db.VarChar(50)
+  value        Decimal?  @db.Decimal(4, 1)
+  del_yn       String    @default("N") @db.VarChar(1)
+  work_at      DateTime  @default(now()) @db.Timestamptz(6)
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@id([ph_log_id, work_at])
+  @@index([work_at(sort: Desc)])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ph100 {
+  id           Int       @id @default(autoincrement())
+  ph_log_id    Int
+  raw_mt_tp_cd String?   @db.VarChar(50)
+  value        Decimal?  @db.Decimal(4, 1)
+  del_yn       String    @default("N") @db.VarChar(1)
+  work_at      DateTime? @default(now()) @db.Timestamptz(6)
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ph200 {
+  id         Int      @default(autoincrement())
+  value      Decimal? @db.Decimal(3, 1)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([id, created_at])
+  @@index([created_at(sort: Desc)])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_plc000 {
+  plc_cd           String    @id @db.VarChar(50)
+  plc_nm           String?   @db.VarChar(50)
+  path             String?   @db.VarChar(50)
+  baud_rate        Int?
+  ip_addr          String?   @db.VarChar(50)
+  port_no          Int?
+  protocol         String    @db.VarChar(50)
+  unit_id          Int
+  poll_interval_ms Int?
+  rmrk             String?
+  created_at       DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_plc100 {
+  plc_addr_tp_cd String    @id @db.VarChar(50)
+  plc_addr_tp_nm String?   @db.VarChar(50)
+  digital_yn     String    @default("N") @db.VarChar(50)
+  plc_log_tp_cd  String    @db.VarChar(50)
+  alarm_yn       String?   @default("N") @db.VarChar(1)
+  alarm_text     String?   @db.VarChar(50)
+  normal_text    String?   @db.VarChar(50)
+  rmrk           String?
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_plc200 {
+  plc_addr_grp_cd String    @id @db.VarChar(50)
+  plc_addr_grp_nm String?   @db.VarChar(50)
+  rmrk            String?
+  created_at      DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_plc300 {
+  plc_addr        String    @id @db.VarChar(50)
+  plc_map_nm      String?   @db.VarChar(50)
+  plc_cd          String    @db.VarChar(50)
+  plc_addr_tp_cd  String    @db.VarChar(50)
+  plc_addr_grp_cd String    @db.VarChar(50)
+  bit_index       Int?
+  scale_factor    Decimal?  @default(1) @db.Decimal(12, 6)
+  use_yn          String?   @default("Y") @db.VarChar(1)
+  rmrk            String?
+  created_at      DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_pressure000 {
+  id              Int      @default(autoincrement())
+  plc_addr_grp_cd String   @db.VarChar(50)
+  pressure        Decimal  @db.Decimal(5, 2)
+  pressure_target Decimal? @db.Decimal(5, 2)
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([id, created_at])
+  @@index([created_at(sort: Desc)])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_print000 {
+  id                  Int       @id @default(autoincrement())
+  lot_serial_no       String    @db.VarChar(50)
+  item_nm             String?   @db.VarChar(50)
+  raw_mt_tp_nm        String?   @db.VarChar(50)
+  raw_mt_origin_tp_nm String?   @db.VarChar(50)
+  item_tp_nm          String?   @db.VarChar(50)
+  item_pkg_nm         String?   @db.VarChar(50)
+  item_pkg_qty        Int?
+  identification_cd   String?   @db.VarChar(50)
+  item_brix           Decimal?  @db.Decimal(4, 1)
+  work_at             DateTime? @db.Timestamptz(6)
+  created_at          DateTime? @default(now()) @db.Timestamptz(6)
+  lot_no              String?   @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_print100 {
+  id            Int       @id @default(autoincrement())
+  lot_serial_no String    @db.VarChar(50)
+  item_nm       String?   @db.VarChar(50)
+  work_at       DateTime? @db.Timestamptz(6)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_process000 {
+  id         Int       @id @default(autoincrement())
+  plc_addr   String?   @db.VarChar(50)
+  active_yn  String?   @db.VarChar(1)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_temp000 {
+  id              Int      @default(autoincrement())
+  plc_addr_grp_cd String?  @db.VarChar(50)
+  value           Decimal? @db.Decimal(4, 1)
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([id, created_at])
+  @@index([created_at(sort: Desc)])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_user000 {
+  user_id       String    @id @db.VarChar(50)
+  user_nm       String?   @db.VarChar(100)
+  user_ps       String?   @db.VarChar(100)
+  del_yn        String?   @default("N") @db.VarChar(1)
+  last_login_at DateTime? @db.Timestamp(6)
+  created_by    String?   @db.VarChar(50)
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+  updated_by    String?   @db.VarChar(50)
+  updated_at    DateTime? @default(now()) @db.Timestamp(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_user100 {
+  user_id       String    @id @db.VarChar(50)
+  refresh_token String?
+  expired_at    DateTime? @db.Timestamp(6)
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+  updated_at    DateTime? @default(now()) @db.Timestamp(6)
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_water000 {
+  id              Int      @default(autoincrement())
+  value           Int?
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+  plc_addr_grp_cd String?  @db.VarChar
+  water_qty       Int?
+
+  @@id([id, created_at])
+  @@index([created_at(sort: Desc)])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_water100 {
+  value           Int?
+  created_at      DateTime @id @default(now()) @db.Timestamptz(6)
+  plc_addr_grp_cd String?  @db.VarChar
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_water200 {
+  id              Int      @default(autoincrement())
+  plc_addr_grp_cd String   @db.VarChar
+  value           Int?
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([id, created_at, plc_addr_grp_cd])
+  @@index([created_at(sort: Desc)])
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_water300 {
+  id              Int      @default(autoincrement())
+  plc_addr_grp_cd String   @db.VarChar
+  value           Decimal? @db.Decimal(4, 1)
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([id, created_at, plc_addr_grp_cd])
+  @@index([created_at(sort: Desc)])
+}
