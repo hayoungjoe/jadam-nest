@@ -12,7 +12,7 @@ export class PrismaService
     if (!url) throw new Error('DATABASE_URL is not set');
 
     const adapter = new PrismaPg({ connectionString: url });
-    super({ adapter, log: ['info', 'warn', 'error'] });
+    super({ adapter, log: ['query', 'info', 'warn', 'error'] });
   }
   async onModuleInit() {
     try {
