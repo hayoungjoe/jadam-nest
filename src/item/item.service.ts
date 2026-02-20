@@ -24,10 +24,7 @@ export class ItemService {
   }
 
   async getItemByCode(item_cd: string) {
-    const item = await this.itemRepository.getItemByCode(item_cd);
-    if (!item) {
-      throw new NotFoundException('아이템을 찾을 수 없습니다.');
-    }
+    return await this.itemRepository.getItemByCode(item_cd);
   }
 
   async updateItem(item_cd: string, updateItemDto: UpdateItemDto) {
